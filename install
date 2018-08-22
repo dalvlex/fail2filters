@@ -54,6 +54,8 @@ function run($option){
 function f2f_list($folder){
 	global $pwd;
 
+	if(!is_dir("{$pwd}/{$folder}/")) return array();
+
 	$list = explode("\n", `ls -lah {$pwd}/{$folder}/ |grep ".conf" |awk '{print \$NF}'`);
 	array_pop($list);
 
