@@ -10,7 +10,7 @@ checkargs();
 
 function checkargs(){
 	// check fail2ban installation
-	if(!is_file('/usr/bin/fail2ban-server')) {
+	if(!is_file('/usr/bin/fail2ban-server') || !is_file('/usr/bin/fail2ban-client')) {
 		die("Fail2ban is not installed\n");
 	}
 	if(!is_dir('/etc/fail2ban')) {
@@ -46,7 +46,7 @@ function run($option){
 	else { f2f_files(1); }
 
 	echo "Restart fail2ban\n";
-	$log .= `/bin/systemctl restart fail2ban`;
+	$log .= `/usr/bin/fail2ban-client restart`;
 
 	echo $log."\n";
 }
