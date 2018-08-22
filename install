@@ -1,1 +1,47 @@
+#!/usr/bin/php
+<?php
+
+$pwd = realpath( dirname( __FILE__ ) );
+$folders = array('fail2ban.d' => 1, 'jail.d' => 1, 'filter.d' => 0, 'action.d' => 0);
+$log = '';
+
+f2f_folders();
+f2f_files(1);
+
+function f2f_list($folder){
+	global $pwd;
+
+	$list = explode("\n", `ls -lah {$pwd}/{$folder}/ |grep ".conf" |awk '{print \$NF}'`);
+	array_pop($list);
+
+	return $list;
+}
+
+function f2f_folders(){
+	global $pwd, $folders, $log;
+
+	foreach($folders as $folder => $delete){
+		if($delete){
+			echo "Emptying folder /etc/fail2ban/{$folder}\n";
+			$log .= `rm -rf /etc/fail2ban/{$folder}/*`;
+		}
+	}
+}
+
+function f2f_files($uninstall = 0){
+	global $pwd, $folders, $log;
+
+	foreach($folders as $folder => $delete){
+		$list = f2f_list($folder);
+		foreach($list as $file){
+			echo ($uninstall?"Uninstall":"Install")." {$folder}/{$file}\n";
+			$log .= `rm -rf /etc/fail2ban/{$folder}/{$file}`;
+			if(!$uninstall) {
+				$log .= `cp {$pwd}/{$folder}/{$file} /etc/fail2ban/{$folder}/{$file}`;
+			}
+		}
+	}
+}
+
+?>
 
