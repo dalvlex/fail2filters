@@ -6,38 +6,51 @@ $pwd = realpath( dirname( __FILE__ ) );
 $folders = array('fail2ban.d' => 1, 'jail.d' => 1, 'filter.d' => 0, 'action.d' => 0);
 $log = '';
 
-// checks & arguments
-if(!is_file('/usr/bin/fail2ban-server')) {
-	die("Fail2ban is not installed\n");
+checkargs();
+
+function checkargs(){
+	// check fail2ban installation
+	if(!is_file('/usr/bin/fail2ban-server')) {
+		die("Fail2ban is not installed\n");
+	}
+	if(!is_dir('/etc/fail2ban')) {
+		die("Fail2ban is does not have its configuration in /etc/fail2ban\n");
+	}
+
+	// get arguments
+	echo "Select 1 for Install, 2 for Uninstall, any other key to Abort\n";
+	echo "WARNING: fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!\n";
+
+	$handle = fopen("php://stdin","r");
+	$option = trim(fgets($handle));
+	
+	switch($option){
+		case 1:
+			run(1);
+			break;
+		case 2:
+			run(2);
+			break;
+		default:
+			echo "Aborting ...\n";
+			break;
+	}
+	fclose($handle);
 }
-if(!is_dir('/etc/fail2ban')) {
-	die("Fail2ban is does not have its configuration in /etc/fail2ban\n");
+
+function run($option){
+	global $log;
+
+	f2f_folders();
+	if ($option == 1) { f2f_files(); }
+	else { f2f_files(1); }
+
+	echo "Restart fail2ban\n";
+	$log .= `/bin/systemctl restart fail2ban`;
+
+	echo $log."\n";
 }
 
-echo "Select 1 for Install, 2 for Uninstall, any other key to Abort\n";
-echo "WARINGIN: fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration!\n";
-
-$handle = fopen("php://stdin","r");
-$line = fgets($handle);
-switch(trim($line)){
-	case 1:
-		f2f_folders();
-		f2f_files();
-		break;
-	case 2:
-		f2f_folders();
-		f2f_files(1);
-		break;
-	default:
-		echo "Aborting ...\n";
-		break;
-}
-fclose($handle);
-echo $log."\n";
-exit;
-
-
-// functions
 function f2f_list($folder){
 	global $pwd;
 
@@ -71,9 +84,6 @@ function f2f_files($uninstall = 0){
 			}
 		}
 	}
-
-	echo "Restart fail2ban\n";
-	$log .= `/bin/systemctl restart fail2ban`;
 }
 
 ?>
