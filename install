@@ -9,12 +9,22 @@ $log = '';
 checkargs();
 
 function checkargs(){
+	global $argv, $log;
+
 	// check fail2ban installation
 	if(!is_file('/usr/bin/fail2ban-server') || !is_file('/usr/bin/fail2ban-client')) {
 		die("Fail2ban is not installed\n");
 	}
 	if(!is_dir('/etc/fail2ban')) {
 		die("Fail2ban is does not have its configuration in /etc/fail2ban\n");
+	}
+
+	if( strcmp(trim($argv[1]), "update") === 0 ){
+		echo "Update code from git repo.\n";
+		$log .= `git reset --hard`;
+		$log .= `git clean -f`;
+		$log .= `git pull`;
+		return;
 	}
 
 	// get arguments
