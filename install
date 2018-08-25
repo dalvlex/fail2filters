@@ -21,7 +21,7 @@ function checkargs(){
 
 	if( !isset($argv[1]) ) {
 		echo "Commands:\n";
-		echo "./install update - updates the local files from the current fail2filters repo;";
+		echo "./install update - updates the local files from the current fail2filters repo;\n";
 		echo "./install 1 - installs the fail2filters configuration files into your fail2ban configuration folder (probably /etc/fail2ban);\n";
 		echo "./install 2 - uninstalls the fail2filters configuration files from your fail2ban configuration folder (probably /etc/fail2ban);\n";
 		echo "WARNING: upon install/uninstall, fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!\n";
