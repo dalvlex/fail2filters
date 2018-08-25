@@ -23,8 +23,12 @@ function checkargs(){
 		echo "Commands:\n";
 		echo "./install update - updates the local files from the current fail2filters repo;\n";
 		echo "./install 1 - installs the fail2filters configuration files into your fail2ban configuration folder (probably /etc/fail2ban);\n";
-		echo "./install 2 - uninstalls the fail2filters configuration files from your fail2ban configuration folder (probably /etc/fail2ban);\n";
-		echo "WARNING: upon install/uninstall, fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!\n";
+		echo "./install 2 - uninstalls the fail2filters configuration files from your fail2ban configuration folder (probably /etc/fail2ban);\n\n";
+		echo "WARNING:\n";
+		echo " - upon 'install' or 'uninstall', fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!\n";
+		echo " - when using 'update' all your local filters and jails in the fail2filters folder will be deleted.\n";
+
+
 
 		return;
 	}
