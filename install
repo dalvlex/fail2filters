@@ -19,7 +19,16 @@ function checkargs(){
 		die("Fail2ban is does not have its configuration in /etc/fail2ban\n");
 	}
 
-	if( isset($argv[1]) && strcmp(trim($argv[1]), "update") === 0 ){
+	if( !isset($argv[1]) ) {
+		echo "Arguments:\n";
+		echo "./install 1 - will install the fail2filters configuration files in your fail2ban configuration folder.\n";
+		echo "./install 2 - will uninstall the fail2filters configuration files from your fail2ban configuration folder.\n";
+		echo "WARNING: upon install/uninstall, fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!\n\n";
+		echo "./install update - will update the local fail2filters files from the git repo.";
+		return;
+	}
+
+	if( strcmp(trim($argv[1]), "update") === 0 ){
 		echo "Update code from git repo.\n";
 		$log .= `git reset --hard`;
 		$log .= `git clean -f`;
@@ -31,14 +40,7 @@ function checkargs(){
 		return;
 	}
 
-	// get arguments
-	echo "Select 1 for Install, 2 for Uninstall, any other key to Abort\n";
-	echo "WARNING: fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!\n";
-
-	$handle = fopen("php://stdin","r");
-	$option = trim(fgets($handle));
-	
-	switch($option){
+	switch(trim($argv[1])){
 		case 1:
 			run(1);
 			break;
@@ -46,10 +48,9 @@ function checkargs(){
 			run(2);
 			break;
 		default:
-			echo "Aborting ...\n";
+			echo "Wrong arguments, Aborting ...\n";
 			break;
 	}
-	fclose($handle);
 }
 
 function run($option){
