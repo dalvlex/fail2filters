@@ -34,8 +34,6 @@ function checkargs(){
 		$log .= `git reset --hard`;
 		$log .= `git clean -f`;
 		$log .= `git pull`;
-		echo "Restart fail2ban\n";
-		$log .= `/usr/bin/fail2ban-client restart`;
 
 		echo $log."\n";
 		return;
