@@ -9,5 +9,7 @@ fail2ban filters (apache2, nginx, ssh etc.) and configuration
 - jails and filters will have the same name
 
 ### Commands
-`./install` - installs and uninstalls the configuration from the fail2filters repo  
-`./install update` - updates the local files from the current fail2filters repo
+`./install update` - updates the local files from the current fail2filters repo;  
+`./install 1` - installs the fail2filters configuration files into your fail2ban configuration folder (probably /etc/fail2ban);  
+`./install 2` - uninstalls the fail2filters configuration files from your fail2ban configuration folder (probably /etc/fail2ban);  
+**WARNING: upon install/uninstall, fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!**
