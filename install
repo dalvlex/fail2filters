@@ -28,8 +28,6 @@ function checkargs(){
 		echo " - upon 'install' or 'uninstall', fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!\n";
 		echo " - when using 'update' all your local filters and jails in the fail2filters folder will be deleted.\n";
 
-
-
 		return;
 	}
 

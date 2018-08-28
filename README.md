@@ -17,3 +17,8 @@ fail2ban filters (apache2, nginx, ssh etc.) and configuration
 - upon 'install' or 'uninstall', fail2filters will empty the fail2ban.d & jail.d folders in your fail2ban configuration folder!  
 - when using 'update' all your local filters and jails in the fail2filters folder will be deleted.
 
+### Crontab
+```
+# Renew Ishi code from GitHub daily  
+@daily /usr/bin/git -C /root/fail2filters reset --hard && git -C /root/fail2filters clean -f && git -C /root/fail2filters pull && /root/fail2filters/install > /dev/null 2>&1
+```
