@@ -1,6 +1,11 @@
 # fail2filters
 fail2ban filters (apache2, nginx, ssh etc.) and configuration
 
+### Install fail2filters
+`git clone https://github.com/dalvlex/fail2filters /root/fail2filters`  
+fail2filters is meant to be used as root and installed under /root/fail2filters, probably it would work as another user with sudo, but this is not tested!  
+Create dummy logs for the jails you don't need, or disable them. If you want the git jails refreshed daily insert the cron entry from below - **this will overwrite your jails and filters**.
+
 ### Dependencies: fail2ban, sqlite3
 `apt install sqlite3 fail2ban`
 
@@ -20,5 +25,5 @@ fail2ban filters (apache2, nginx, ssh etc.) and configuration
 ### Crontab
 ```
 # Renew Ishi code from GitHub daily  
-@daily /usr/bin/git -C /root/fail2filters reset --hard && git -C /root/fail2filters clean -f && git -C /root/fail2filters pull && /root/fail2filters/install > /dev/null 2>&1
+@daily /usr/bin/git -C /root/fail2filters reset --hard && git -C /root/fail2filters clean -f && git -C /root/fail2filters pull && /root/fail2filters/install 1 > /dev/null 2>&1
 ```
